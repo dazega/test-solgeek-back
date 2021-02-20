@@ -3,10 +3,14 @@ import cors from "cors";
 import mongoose from 'mongoose';
 import config from "./config/config";
 
+import userRoutes from "./routes/user";
+
 const app = express();
 
 app.use(json());
 app.use(cors());
+
+app.use(userRoutes);
 
 mongoose.connect(`${config.MONGO_URL}/${config.DATABASE}`, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
