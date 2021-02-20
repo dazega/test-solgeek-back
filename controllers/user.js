@@ -38,3 +38,45 @@ export const obtenerUsuario = async (req, res) => {
     return res.status(500).json({ message: 'Error en el servicio', usuarios: [] });
   }
 }
+
+export const updateUser = async (req, res) =>{
+  const {
+    _id=''
+  } = req.params;
+
+  const {
+    nombre: Nombre = '',
+    apellido: Apellido = '',
+    correo:Correo = '',
+    status: Status = true
+  } = req.body;
+
+  if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).json({message: 'Error en los parametros Id no valido'});
+
+  const user = await UserModel.findById(_id);
+
+  if (!user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+  const update = await user.update({
+    Nombre,
+    Apellido,
+    Correo,
+    Status
+  });
+
+  return res.status(200).json({ update });
+}
+
+export const deleteUser = async (req, res) => {
+  const {
+    _id=''
+  } = req.params;
+
+  if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(400).json({message: 'Error en los parametros Id no valido'});
+
+  const user = await UserModel.findByIdAndRemove(_id);
+
+  if (user) return res.status(404).json({ message: 'Usuario no encontrado' });
+
+  return res.status(200).json({message: 'Usuario eliminado'}); 
+}
