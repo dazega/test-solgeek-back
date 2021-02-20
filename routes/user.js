@@ -8,6 +8,6 @@ const router = express.Router();
 
 // router.get('/', )
 router.post('/crear', createUser); 
-
+router.get('/usuarios', obtenerUsuario);
 
 export default router;

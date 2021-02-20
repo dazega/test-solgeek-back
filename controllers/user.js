@@ -28,3 +28,13 @@ export const createUser = async (req, res) => {
     return res.status(500).json({ message: 'Error en el servicio' });
   }
 }
+
+export const obtenerUsuario = async (req, res) => {
+  try{
+    const usuarios = await UserModel.find({}).select({ Nombre: 1, Apellido: 1, Correo: 1, Status: 1 });
+
+    return res.status(200).json({ usuarios });
+  }catch(error){
+    return res.status(500).json({ message: 'Error en el servicio', usuarios: [] });
+  }
+}
